@@ -1,0 +1,6 @@
+rootObjectOne:
+  secondLevelVal: valueOnSecondLvl
+  secondLevelMissingVal: valueOnSecondmissingLvl
+rootLvlVal: valOnRootLevel
+rootLvlMissingVal: missingValOnRootLevel
+rootLvlNonStringval: true
