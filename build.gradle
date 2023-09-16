@@ -13,6 +13,7 @@ dependencies {
     implementation enforcedPlatform("${quarkusPlatformGroupId}:quarkus-camel-bom:${quarkusPlatformVersion}")
     implementation 'org.yaml:snakeyaml:1.30'
     implementation 'io.quarkus:quarkus-arc'
+    implementation 'com.google.guava:guava:31.0.1-jre'
     testImplementation 'io.quarkus:quarkus-junit5'
 }
 

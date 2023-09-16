@@ -1,0 +1,4 @@
+rootObjectOne:
+  secondLevelVal: valueOnSecondLvl
+rootLvlVal: valOnRootLevel
+rootLvlNonStringval: true
