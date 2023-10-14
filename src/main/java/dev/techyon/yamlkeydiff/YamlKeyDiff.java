@@ -33,7 +33,8 @@ public class YamlKeyDiff implements QuarkusApplication {
                 System.out.println("There is no missing keys");
             } else {
                 System.out.println("\nMissing files:");
-                dirKeyDiff.getMissingFiles().forEach(System.out::println);
+                dirKeyDiff.getMissingFiles().stream().sorted()
+                        .forEach(System.out::println);
                 System.out.println("\nMissing keys:");
                 dirKeyDiff.getMissingKeys().forEach((key, value) -> {
                 System.out.println(key);
@@ -52,13 +53,10 @@ public class YamlKeyDiff implements QuarkusApplication {
     if (args[0].equals("fileDiff")) {
         try {
             Path yamlFilePath1 = Path.of(args[1]);
-            String yaml1 = Files.readString(yamlFilePath1);
-
             Path yamlFilePath2 = Path.of(args[2]);
-            String yaml2 = Files.readString(yamlFilePath2);
 
             DefaultKeyDiffService service = new DefaultKeyDiffService();
-            List<String> missingKeys = service.diff(yaml1, yaml2);
+            List<String> missingKeys = service.diff(yamlFilePath1, yamlFilePath2);
 
             if (missingKeys.isEmpty()) {
             System.out.println("There is no missing keys");

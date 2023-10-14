@@ -39,10 +39,7 @@ public class DefaultDirDiffService {
                         Path currnetPath = Paths.get(destPath);
                         if (Files.exists(currnetPath)) {
                             try {
-                                String sourceYaml = Files.readString(path);
-                                String destYaml = Files.readString(currnetPath);
-
-                                List<String> missingKeys = keyDiffService.diff(sourceYaml, destYaml);
+                                List<String> missingKeys = keyDiffService.diff(path, currnetPath);
                                 if (!missingKeys.isEmpty()) {
                                     dirKeyDiff.getMissingKeys().put(relativePath, missingKeys);
                                 }

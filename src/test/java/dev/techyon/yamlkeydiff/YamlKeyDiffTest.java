@@ -60,8 +60,8 @@ class YamlKeyDiffTest {
     Assertions.assertEquals(20, result.exitCode());
 
     String expected = "Missing files:\n" +
-            "service2/one.yaml\n" +
-            "serviceMissing/two.yaml";
+            "serviceMissing/two.yaml\n" +
+            "service2/one.yaml";
 
     Assertions.assertEquals(expected, result.getOutput());
   }

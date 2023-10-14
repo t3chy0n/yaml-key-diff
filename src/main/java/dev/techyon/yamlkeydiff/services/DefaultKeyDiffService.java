@@ -2,6 +2,9 @@ package dev.techyon.yamlkeydiff.services;
 
 import org.yaml.snakeyaml.Yaml;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +13,10 @@ import java.util.stream.Collectors;
 
 public class DefaultKeyDiffService {
 
+  public List<String> diff(Path yamlFile1, Path yamlFile2) throws IOException, ParseException {
+
+    return diff(Files.readString(yamlFile1), Files.readString(yamlFile2));
+  }
 
   public List<String> diff(String yaml1, String yaml2) throws ParseException {
     Yaml snakeYaml = new Yaml();
