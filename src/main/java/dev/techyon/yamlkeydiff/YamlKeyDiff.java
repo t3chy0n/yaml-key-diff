@@ -3,6 +3,8 @@ package dev.techyon.yamlkeydiff;
 import dev.techyon.yamlkeydiff.model.DirKeyDiff;
 import dev.techyon.yamlkeydiff.services.DefaultDirDiffService;
 import dev.techyon.yamlkeydiff.services.DefaultKeyDiffService;
+import dev.techyon.yamlkeydiff.services.WildcardDirDiffService;
+import dev.techyon.yamlkeydiff.services.WildcardFileListProvider;
 import io.quarkus.runtime.QuarkusApplication;
 import io.quarkus.runtime.annotations.QuarkusMain;
 
@@ -95,6 +97,28 @@ public class YamlKeyDiff implements QuarkusApplication {
         return 0;
     }
 
+    if (args[0].equals("wildcardDiff")) {
+        WildcardDirDiffService service = new WildcardDirDiffService();
+        Path startPath = Path.of(".");
+        String sourcePattern = args[1];
+        String destPattern = args[2];
+        DirKeyDiff dirKeyDiff = service.diff(startPath, sourcePattern, destPattern);
+
+        if (dirKeyDiff.getMissingFiles().isEmpty() && dirKeyDiff.getMissingKeys().isEmpty()) {
+            System.out.println("There is no missing keys");
+        } else {
+            System.out.println("\nMissing files:");
+            dirKeyDiff.getMissingFiles().stream().sorted()
+                    .forEach(System.out::println);
+            System.out.println("\nMissing keys:");
+            dirKeyDiff.getMissingKeys().forEach((String key, List<String> value) -> {
+                System.out.println(key);
+                value.forEach((String s) -> System.out.println("\t" + s));
+            });
+            return 20;
+        }
+    }
+
     printHelp();
     return 0;
   }
@@ -105,6 +129,8 @@ public class YamlKeyDiff implements QuarkusApplication {
     System.out.println("  dirDiff: Compare two directories");
     System.out.println("  fileDiff: Compare two files");
     System.out.println("  missingFiles: Find missing files in destination directory");
+    System.out.println("  wildcardDiff: Compare two directories using wildcards");
+
     System.out.println("  --help: Print this help message");
   }
 }

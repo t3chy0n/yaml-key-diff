@@ -15,17 +15,16 @@ class DefaultDirDiffServiceTest {
 
     @Test
     void findMissingFiles_twoMissingFiles() throws IOException {
-        URL url1 = Resources.getResource("stage");
+        URL url1 = Resources.getResource("testDirs/stage");
         String one = url1.getPath();
-        URL url2 = Resources.getResource("prod");
+        URL url2 = Resources.getResource("testDirs/prod");
         String two = url2.getPath();
 
         List<String> missingFiles = service.findMissingFiles(one, two);
 
         assertNotNull(missingFiles);
-        assertEquals(2, missingFiles.size());
-        assertTrue(missingFiles.contains("service2/one.yaml"));
-        assertTrue(missingFiles.contains("serviceMissing/two.yaml"));
+        assertEquals(1, missingFiles.size());
+        assertTrue(missingFiles.contains("serviceMissing/missing.yaml"));
     }
 
     @Test
@@ -36,19 +35,18 @@ class DefaultDirDiffServiceTest {
 
     @Test
     void diff_twoMissingFilesTwoMissingKeys() throws IOException {
-        URL url1 = Resources.getResource("stage");
+        URL url1 = Resources.getResource("testDirs/stage");
         String one = url1.getPath();
-        URL url2 = Resources.getResource("prod");
+        URL url2 = Resources.getResource("testDirs/prod");
         String two = url2.getPath();
 
         var dirKeyDiff = service.diff(one, two);
 
         assertNotNull(dirKeyDiff);
-        assertEquals(2, dirKeyDiff.getMissingFiles().size());
-        assertTrue(dirKeyDiff.getMissingFiles().contains("service2/one.yaml"));
-        assertTrue(dirKeyDiff.getMissingFiles().contains("serviceMissing/two.yaml"));
+        assertEquals(1, dirKeyDiff.getMissingFiles().size());
+        assertTrue(dirKeyDiff.getMissingFiles().contains("serviceMissing/missing.yaml"));
 
-        assertEquals(1, dirKeyDiff.getMissingKeys().size());
+        assertEquals(2, dirKeyDiff.getMissingKeys().size());
         assertTrue(dirKeyDiff.getMissingKeys().containsKey("service1/one.yaml"));
         assertEquals(2, dirKeyDiff.getMissingKeys().get("service1/one.yaml").size());
         assertTrue(dirKeyDiff.getMissingKeys().get("service1/one.yaml").contains("rootObjectOne.secondLevelMissingVal"));

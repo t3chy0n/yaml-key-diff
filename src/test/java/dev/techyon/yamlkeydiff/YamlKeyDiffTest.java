@@ -36,15 +36,19 @@ class YamlKeyDiffTest {
 
   @Test
   void testLaunchCommand_dirDiff_diff(QuarkusMainLauncher launcher) {
-    URL url1 = Resources.getResource("stage");
-    URL url2 = Resources.getResource("prod");
+    URL url1 = Resources.getResource("testDirs/stage");
+    URL url2 = Resources.getResource("testDirs/prod");
     LaunchResult result = launcher.launch("dirDiff", url1.getFile(), url2.getFile());
     Assertions.assertEquals(20, result.exitCode());
 
-    String expected = "\nMissing files:\n" +
-            "service2/one.yaml\n" +
-            "serviceMissing/two.yaml\n" +
-            "\nMissing keys:\n" +
+    String expected = "\n" +
+            "Missing files:\n" +
+            "serviceMissing/missing.yaml\n" +
+            "\n" +
+            "Missing keys:\n" +
+            "service2/two.yaml\n" +
+            "\trootObjectOne.secondLevelMissingVal\n" +
+            "\trootLvlMissingVal\n" +
             "service1/one.yaml\n" +
             "\trootObjectOne.secondLevelMissingVal\n" +
             "\trootLvlMissingVal";
@@ -54,14 +58,13 @@ class YamlKeyDiffTest {
 
   @Test
   void testLaunchCommand_missingFiles_diff(QuarkusMainLauncher launcher) {
-    URL url1 = Resources.getResource("stage");
-    URL url2 = Resources.getResource("prod");
+    URL url1 = Resources.getResource("testDirs/stage");
+    URL url2 = Resources.getResource("testDirs/prod");
     LaunchResult result = launcher.launch("missingFiles", url1.getFile(), url2.getFile());
     Assertions.assertEquals(20, result.exitCode());
 
     String expected = "Missing files:\n" +
-            "serviceMissing/two.yaml\n" +
-            "service2/one.yaml";
+            "serviceMissing/missing.yaml";
 
     Assertions.assertEquals(expected, result.getOutput());
   }

@@ -44,6 +44,14 @@ The `yaml-key-diff` tool provides the following commands:
    yaml-key-diff missingFiles <source_dir> <destination_dir>
    ```
 
+4. **wildcardDiff:** Compares two YAML files using a wildcard. This command takes as arguments two file patterns, the source and destination.
+
+   Usage:
+
+   ```console
+   yaml-key-diff wildcardDiff <source_pattern> <destination_pattern>
+   ```
+
 4. **--help:** Prints the help message, showing all possible commands and usages.
 
    Usage:
